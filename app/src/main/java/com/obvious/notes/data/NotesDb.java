@@ -1,0 +1,35 @@
+package com.obvious.notes.data;
+
+import android.provider.BaseColumns;
+
+public class NotesDb {
+
+    public NotesDb() {
+    }
+
+    /* Inner class that defines the table contents */
+    public static abstract class Note implements BaseColumns {
+        public static final String TABLE_NAME = "notes";
+        public static final String COLUMN_NAME_TITLE = "title";
+        public static final String COLUMN_NAME_SUBTITLE = "subtitle";
+        public static final String COLUMN_NAME_CONTENT = "content";
+        public static final String COLUMN_NAME_CREATED_AT = "created_at";
+        public static final String COLUMN_NAME_TIME = "time";
+        public static final String COLUMN_NAME_ARCHIVED = "archived";
+        public static final String COLUMN_NAME_NOTIFIED = "notified";
+        public static final String COLUMN_NAME_COLOR = "color";
+        public static final String COLUMN_NAME_ENCRYPTED = "encrypted";
+        public static final String COLUMN_NAME_PINNED = "pinned";
+        public static final String COLUMN_NAME_TAG = "tag";
+        public static final String COLUMN_NAME_REMINDER = "reminder";
+        public static final String COLUMN_NAME_CHECKLIST = "checklist";
+        public static final String COLUMN_NAME_DELETED = "deleted";
+    }
+
+    public static abstract class Checklist implements BaseColumns {
+        public static final String TABLE_NAME = "checklists";
+        public static final String COLUMN_NAME_NOTE_ID = "note_id";
+        public static final String COLUMN_NAME_ITEM = "item";
+        public static final String COLUMN_NAME_CHECKED = "checked";
+    }
+}
