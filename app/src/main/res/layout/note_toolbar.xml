@@ -26,7 +26,6 @@
         android:background="#44000000" />
 
     <TextView
-        android:id="@+id/textbar_note"
         android:layout_width="match_parent"
         android:layout_height="@dimen/note_toolbar_height"
         android:layout_gravity="bottom"

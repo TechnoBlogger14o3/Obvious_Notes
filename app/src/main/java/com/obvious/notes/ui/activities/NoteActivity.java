@@ -46,14 +46,12 @@ import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.obvious.notes.Constants;
 import com.obvious.notes.R;
 import com.obvious.notes.data.NotesDb;
 import com.obvious.notes.data.NotesDbHelper;
-import com.obvious.notes.receivers.AlarmReceiver;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -379,34 +377,6 @@ public class NoteActivity extends AppCompatActivity {
         editText.setLinksClickable(!enabled);
     }
 
-    private void toggleReminder(boolean enable) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt(NotesDb.Note._ID, id);
-        intent.putExtra(Constants.NOTE_DETAILS_BUNDLE, bundle);
-
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, id, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        if (enable) {
-            Calendar calendar = Calendar.getInstance();
-            try {
-                calendar.setTime(readableDateFormat.parse(reminder));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
-                } else {
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        } else {
-            alarmManager.cancel(alarmIntent);
-        }
-    }
-
     public void notif(int notified) {
         // Gets an instance of the NotificationManager service
         NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -418,7 +388,7 @@ public class NoteActivity extends AppCompatActivity {
             else info = time;
             NotificationCompat.Builder notif =
                     new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.ic_stat_notepal)
+                            .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentText(content)
                             .setSubText(info)
                             .setShowWhen(false)
@@ -479,7 +449,6 @@ public class NoteActivity extends AppCompatActivity {
 
     public void delete(View v) {
         notif(0);
-        toggleReminder(false);
         dbHelper.updateFlag(id, NotesDb.Note.COLUMN_NAME_ARCHIVED, 0);
         dbHelper.updateFlag(id, NotesDb.Note.COLUMN_NAME_PINNED, 0);
         dbHelper.updateFlag(id, NotesDb.Note.COLUMN_NAME_NOTIFIED, 0);

@@ -40,11 +40,4 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
-    <style name="BottomSheet.Dark" parent="Theme.Design.BottomSheetDialog">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/background_dark</item>
-        <item name="colorPrimaryDark">@color/statusbar_dark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
 </resources>
