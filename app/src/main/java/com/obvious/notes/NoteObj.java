@@ -3,15 +3,15 @@ package com.obvious.notes;
 import java.io.Serializable;
 
 public class NoteObj implements Serializable {
-    public int id;
-    public String title;
-    public String subtitle;
-    public String content;
-    public String time;
-    public String color;
-    public int tag;
-    public int deleted;
-    private String created_at;
+    private int id;
+    private String title;
+    private String subtitle;
+    private String content;
+    private String time;
+    private String color;
+    private int tag;
+    private int deleted;
+    private String createdAt;
     private int archived;
     private int notified;
     private int encrypted;
@@ -20,14 +20,14 @@ public class NoteObj implements Serializable {
     private int checklist;
 
     public NoteObj(int id, String title, String subtitle, String content, String time,
-                   String created_at, int archived, int notified, String color, int encrypted,
+                   String createdAt, int archived, int notified, String color, int encrypted,
                    int pinned, int tag, String reminder, int checklist, int deleted) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
         this.content = content;
         this.time = time;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
         this.archived = archived;
         this.notified = notified;
         this.color = color;
@@ -43,16 +43,8 @@ public class NoteObj implements Serializable {
         return archived;
     }
 
-    public void setArchived(int archived) {
-        this.archived = archived;
-    }
-
     public int getNotified() {
         return notified;
-    }
-
-    public void setNotified(int notified) {
-        this.notified = notified;
     }
 
     public int getId() {
@@ -75,10 +67,6 @@ public class NoteObj implements Serializable {
         return subtitle;
     }
 
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
-    }
-
     public String getContent() {
         return content;
     }
@@ -95,12 +83,8 @@ public class NoteObj implements Serializable {
         this.time = time;
     }
 
-    public String getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
     public String getColor() {
@@ -115,24 +99,12 @@ public class NoteObj implements Serializable {
         return encrypted;
     }
 
-    public void setEncrypted(int encrypted) {
-        this.encrypted = encrypted;
-    }
-
     public int getPinned() {
         return pinned;
     }
 
-    public void setPinned(int pinned) {
-        this.pinned = pinned;
-    }
-
     public int getTag() {
         return tag;
-    }
-
-    public void setTag(int tag) {
-        this.tag = tag;
     }
 
     public String getReminder() {
@@ -147,15 +119,8 @@ public class NoteObj implements Serializable {
         return checklist;
     }
 
-    public void setChecklist(int checklist) {
-        this.checklist = checklist;
-    }
-
     public int getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(int deleted) {
-        this.deleted = deleted;
-    }
 }

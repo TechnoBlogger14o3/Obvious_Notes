@@ -3,7 +3,7 @@
 
     <string name="provider_desc">Content Provider for NotePal</string>
 
-    <string name="blank">No notes or checklists saved\n Add one by tapping the floating button below</string>
+    <string name="blank">Add notes by tapping the floating button below</string>
 
     <string name="title">Title</string>
     <string name="content">Start typing…</string>

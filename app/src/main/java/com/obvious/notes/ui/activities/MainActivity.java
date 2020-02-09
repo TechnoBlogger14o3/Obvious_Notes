@@ -42,18 +42,21 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
-    public NotesAdapter mAdapter;
+    private NotesAdapter mAdapter;
     protected NotesDbHelper dbHelper;
-    boolean lightTheme, changed;
-    ArrayList<NoteObj> noteObjArrayList;
-    RecyclerView recyclerView;
-    StaggeredGridLayoutManager layoutManager;
-    TextView blankText;
-    View fab;
-    SharedPreferences pref;
-    View addNoteView, shadow;
-    View.OnClickListener fabClickListener, addNoteListener;
-    boolean fabOpen = false;
+    private boolean lightTheme;
+    private boolean changed;
+    private ArrayList<NoteObj> noteObjArrayList;
+    private RecyclerView recyclerView;
+    private StaggeredGridLayoutManager layoutManager;
+    private TextView blankText;
+    private View fab;
+    private SharedPreferences pref;
+    private View addNoteView;
+    private View shadow;
+    private View.OnClickListener fabClickListener;
+    private View.OnClickListener addNoteListener;
+    private boolean fabOpen = false;
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -102,22 +105,14 @@ public class MainActivity extends AppCompatActivity
 
             }
         };
-
-
         fab.setOnClickListener(fabClickListener);
         shadow.setOnClickListener(fabClickListener);
-
         dbHelper = new NotesDbHelper(this);
-
         blankText = findViewById(R.id.blankTextView);
-
         noteObjArrayList = new ArrayList<>();
-
         recyclerView = findViewById(R.id.recyclerView);
-
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("note-list-changed"));
-
     }
 
     @Override
@@ -183,14 +178,9 @@ public class MainActivity extends AppCompatActivity
             lightTheme = !lightTheme;
             recreate();
         }
-
         super.onResume();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
 
     public void updateWidgets() {
         Intent intent = new Intent();
@@ -234,13 +224,8 @@ public class MainActivity extends AppCompatActivity
 
         int mode = pref.getInt(Constants.LIST_MODE, 0);
         StringBuilder selection = new StringBuilder();
-        switch (mode) {
-            case 1: // Notes only
-                selection.append(NotesDb.Note.COLUMN_NAME_CHECKLIST + " LIKE " + 0 + " AND ");
-                break;
-            case 2: // Checklists only
-                selection.append(NotesDb.Note.COLUMN_NAME_CHECKLIST + " LIKE " + 1 + " AND ");
-                break;
+        if (mode == 1) { // Notes only
+            selection.append(NotesDb.Note.COLUMN_NAME_CHECKLIST + " LIKE " + 0 + " AND ");
         }
 
         if (pref.getBoolean(Constants.TRASH, false)) {
@@ -298,7 +283,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        if (noteObjArrayList.size() == 0)
+        if (noteObjArrayList.isEmpty())
             blankText.setVisibility(View.VISIBLE);
         else
             blankText.setVisibility(View.GONE);

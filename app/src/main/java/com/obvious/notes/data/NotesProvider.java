@@ -36,9 +36,6 @@ public class NotesProvider extends ContentProvider {
          */
         sUriMatcher.addURI(AUTHORITY, NotesDb.Note.TABLE_NAME + "/#", 2);
 
-        sUriMatcher.addURI(AUTHORITY, NotesDb.Checklist.TABLE_NAME, 3);
-        sUriMatcher.addURI(AUTHORITY, NotesDb.Checklist.TABLE_NAME + "/#", 4);
-
         sUriMatcher.addURI(AUTHORITY, "/join", 0);
     }
 
@@ -65,16 +62,12 @@ public class NotesProvider extends ContentProvider {
                 }
                 delCount = db.delete(NotesDb.Note.TABLE_NAME, where, selectionArgs);
                 break;
-            case 3:
-                delCount = db.delete(NotesDb.Checklist.TABLE_NAME, selection, selectionArgs);
-                break;
             case 4:
                 String idStr1 = uri.getLastPathSegment();
                 String where1 = NotesDb.Note._ID + " = " + idStr1;
                 if (!TextUtils.isEmpty(selection)) {
                     where1 += " AND " + selection;
                 }
-                delCount = db.delete(NotesDb.Checklist.TABLE_NAME, where1, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -93,10 +86,6 @@ public class NotesProvider extends ContentProvider {
                 return ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + NotesDb.Note.TABLE_NAME;
             case 2:
                 return ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + NotesDb.Note.TABLE_NAME;
-            case 3:
-                return ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + NotesDb.Checklist.TABLE_NAME;
-            case 4:
-                return ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + NotesDb.Checklist.TABLE_NAME;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
@@ -109,9 +98,6 @@ public class NotesProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
             case 1:
                 id = db.insertWithOnConflict(NotesDb.Note.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-                return getUriForId(id, uri);
-            case 3:
-                id = db.insertWithOnConflict(NotesDb.Checklist.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
                 return getUriForId(id, uri);
             default:
                 throw new IllegalArgumentException("Unsupported URI for insertion: " + uri);
@@ -143,9 +129,7 @@ public class NotesProvider extends ContentProvider {
             sortOrder = NotesDb.Note.COLUMN_NAME_TIME + " DESC";
         }
         switch (sUriMatcher.match(uri)) {
-            case 0:
-                builder.setTables(NotesDb.Note.TABLE_NAME + " LEFT OUTER JOIN " + NotesDb.Checklist.TABLE_NAME + " ON " + NotesDb.Note.TABLE_NAME + "." + NotesDb.Note._ID + " = " + NotesDb.Checklist.TABLE_NAME + "." + NotesDb.Checklist.COLUMN_NAME_NOTE_ID);
-                break;
+
             case 1:
                 builder.setTables(NotesDb.Note.TABLE_NAME);
                 break;
