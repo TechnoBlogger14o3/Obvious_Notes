@@ -2,9 +2,7 @@ package com.obvious.notes.ui.activities;
 
 import android.animation.ObjectAnimator;
 import android.app.LoaderManager;
-import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -35,7 +33,6 @@ import com.obvious.notes.data.NotesDb;
 import com.obvious.notes.data.NotesDbHelper;
 import com.obvious.notes.data.NotesProvider;
 import com.obvious.notes.ui.adapters.NotesAdapter;
-import com.obvious.notes.widget.NotesWidget;
 
 import java.util.ArrayList;
 
@@ -167,7 +164,6 @@ public class MainActivity extends AppCompatActivity
 
         if (changed) {
             getLoaderManager().restartLoader(0, null, this);
-            updateWidgets();
             changed = false;
         }
 
@@ -179,17 +175,6 @@ public class MainActivity extends AppCompatActivity
             recreate();
         }
         super.onResume();
-    }
-
-
-    public void updateWidgets() {
-        Intent intent = new Intent();
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        AppWidgetManager man = AppWidgetManager.getInstance(this);
-        int[] ids = man.getAppWidgetIds(
-                new ComponentName(this, NotesWidget.class));
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-        sendBroadcast(intent);
     }
 
     @Override
@@ -227,18 +212,11 @@ public class MainActivity extends AppCompatActivity
         if (mode == 1) { // Notes only
             selection.append(NotesDb.Note.COLUMN_NAME_CHECKLIST + " LIKE " + 0 + " AND ");
         }
-
-        if (pref.getBoolean(Constants.TRASH, false)) {
-            selection.append(NotesDb.Note.COLUMN_NAME_DELETED).append(" LIKE ").append(1);
-        } else {
-            selection.append(NotesDb.Note.COLUMN_NAME_DELETED).append(" LIKE ").append(0).append(" AND ");
-            int archive = pref.getBoolean(Constants.ARCHIVE, false) ? 1 : 0;
-            selection.append(NotesDb.Note.COLUMN_NAME_ARCHIVED).append(" LIKE ").append(archive);
-        }
         return new CursorLoader(this, baseUri,
                 projection, selection.toString(), null,
                 NotesDb.Note.COLUMN_NAME_TIME + sort);
     }
+
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
@@ -247,21 +225,7 @@ public class MainActivity extends AppCompatActivity
             noteObjArrayList.clear();
             if (cursor.moveToFirst()) {
                 do {
-                    NoteObj noteObj = new NoteObj(cursor.getInt(0),
-                            cursor.getString(1),
-                            cursor.getString(2),
-                            cursor.getString(3),
-                            cursor.getString(4),
-                            cursor.getString(5),
-                            cursor.getInt(6),
-                            cursor.getInt(7),
-                            cursor.getString(8),
-                            cursor.getInt(9),
-                            cursor.getInt(10),
-                            cursor.getInt(11),
-                            cursor.getString(12),
-                            cursor.getInt(13),
-                            cursor.getInt(14));
+                    NoteObj noteObj = new NoteObj(cursor.getInt(0));
                     noteObjArrayList.add(noteObj);
                 } while (cursor.moveToNext());
             }
