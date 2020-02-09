@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.core.app.ActivityOptionsCompat;
@@ -39,15 +38,9 @@ public class NotesAdapter extends RecyclerViewCursorAdapter<RecyclerView.ViewHol
     // Create new views (invoked by the layout manager)
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 0) {
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.note_layout, parent, false);
-            return new NoteViewHolder(v);
-        } else {
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.checklist_item_layout, parent, false);
-            return new ChecklistViewHolder(v);
-        }
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.note_layout, parent, false);
+        return new NoteViewHolder(v);
     }
 
     @Override
@@ -146,14 +139,15 @@ public class NotesAdapter extends RecyclerViewCursorAdapter<RecyclerView.ViewHol
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class NoteViewHolder extends RecyclerView.ViewHolder {
-        public View mView;
-        TextView title, subtitle, content, date;
-        View card;
+    private static class NoteViewHolder extends RecyclerView.ViewHolder {
+        private TextView title;
+        private TextView subtitle;
+        private TextView content;
+        private TextView date;
+        private View card;
 
-        public NoteViewHolder(View v) {
+        private NoteViewHolder(View v) {
             super(v);
-            mView = v;
             title = v.findViewById(R.id.note_title);
             subtitle = v.findViewById(R.id.note_subtitle);
             content = v.findViewById(R.id.note_content);
@@ -162,30 +156,4 @@ public class NotesAdapter extends RecyclerViewCursorAdapter<RecyclerView.ViewHol
         }
 
     }
-
-    public static class ChecklistViewHolder extends RecyclerView.ViewHolder {
-        public View mView;
-        TextView title, subtitle, date, checklist1, checklist2, checklist3, more;
-        CheckBox checkBox1, checkBox2, checkBox3;
-        View card, contentView;
-
-        public ChecklistViewHolder(View v) {
-            super(v);
-            mView = v;
-            title = v.findViewById(R.id.note_title);
-            subtitle = v.findViewById(R.id.note_subtitle);
-            contentView = v.findViewById(R.id.checklist_items);
-            checkBox1 = v.findViewById(R.id.checkbox1);
-            checkBox2 = v.findViewById(R.id.checkbox2);
-            checkBox3 = v.findViewById(R.id.checkbox3);
-            checklist1 = v.findViewById(R.id.checklist_item1);
-            checklist2 = v.findViewById(R.id.checklist_item2);
-            checklist3 = v.findViewById(R.id.checklist_item3);
-            more = v.findViewById(R.id.overflow_text);
-            date = v.findViewById(R.id.note_date);
-            card = v.findViewById(R.id.note_card);
-        }
-
-    }
-
 }

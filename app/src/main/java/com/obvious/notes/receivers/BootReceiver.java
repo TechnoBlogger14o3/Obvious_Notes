@@ -76,7 +76,7 @@ public class BootReceiver extends BroadcastReceiver {
             bundle.putString(NotesDb.Note.COLUMN_NAME_SUBTITLE, subtitle);
             bundle.putString(NotesDb.Note.COLUMN_NAME_CONTENT, content);
             bundle.putString(NotesDb.Note.COLUMN_NAME_TIME, time);
-            bundle.putString(NotesDb.Note.COLUMN_NAME_CREATED_AT, note.getCreated_at());
+            bundle.putString(NotesDb.Note.COLUMN_NAME_CREATED_AT, note.getCreatedAt());
             bundle.putInt(NotesDb.Note.COLUMN_NAME_NOTIFIED, note.getNotified());
             bundle.putInt(NotesDb.Note.COLUMN_NAME_ARCHIVED, note.getArchived());
             bundle.putString(NotesDb.Note.COLUMN_NAME_COLOR, note.getColor());

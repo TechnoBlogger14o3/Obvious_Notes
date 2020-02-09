@@ -74,7 +74,7 @@ public class NotesWidgetService extends RemoteViewsService {
                 bundle.putString(NotesDb.Note.COLUMN_NAME_SUBTITLE, note.getSubtitle());
                 bundle.putString(NotesDb.Note.COLUMN_NAME_CONTENT, note.getContent());
                 bundle.putString(NotesDb.Note.COLUMN_NAME_TIME, note.getTime());
-                bundle.putString(NotesDb.Note.COLUMN_NAME_CREATED_AT, note.getCreated_at());
+                bundle.putString(NotesDb.Note.COLUMN_NAME_CREATED_AT, note.getCreatedAt());
                 bundle.putInt(NotesDb.Note.COLUMN_NAME_NOTIFIED, note.getNotified());
                 bundle.putInt(NotesDb.Note.COLUMN_NAME_ARCHIVED, note.getArchived());
                 bundle.putString(NotesDb.Note.COLUMN_NAME_COLOR, note.getColor());
